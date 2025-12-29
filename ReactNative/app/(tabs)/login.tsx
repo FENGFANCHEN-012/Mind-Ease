@@ -1,78 +1,147 @@
-import { View, Text, TextInput, Pressable } from "react-native";
+import { View, Text, TextInput, Pressable, Image } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = () => {
-    
     setError("");
 
-    
-    if (!username.trim() || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       setError("Please ensure all fields are filled.");
       return;
     }
-    
-    /*else if{username !== "user" || password !== "pass"} {
-      setError("Invalid username or password.");
-      return;
-    }*/
 
-    
-    router.push("/(tabs)");
+    router.replace("/(tabs)");
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 20 }}>Login</Text>
+    <View style={{ flex: 1, padding: 24, backgroundColor: "#fff" }}>
+      {/* Logo + Welcome */}
+      <View style={{ alignItems: "center", marginTop: 40 }}>
+        <View
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: 12,
+            backgroundColor: "#2DBE60",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 12,
+          }}
+        >
+          <Text style={{ color: "#fff", fontSize: 28, fontWeight: "bold" }}>
+            M
+          </Text>
+        </View>
 
-      <TextInput
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-        autoCapitalize="none"
-        style={{
-          borderWidth: 1,
-          borderColor: "#ccc",
-          padding: 10,
-          marginBottom: 10,
-          borderRadius: 5,
-        }}
-      />
-
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={{
-          borderWidth: 1,
-          borderColor: "#ccc",
-          padding: 10,
-          marginBottom: 10,
-          borderRadius: 5,
-        }}
-      />
-
-     
-      {error ? (
-        <Text style={{ color: "red", marginBottom: 10 }}>
-          {error}
+        <Text style={{ fontSize: 22, fontWeight: "600" }}>Welcome!</Text>
+        <Text style={{ color: "#777", marginTop: 4 }}>
+          Sign in to continue your wellness journey
         </Text>
-      ) : null}
+      </View>
 
-      <Pressable onPress={handleLogin}>
-        <Text>Log In</Text>
-      </Pressable>
+      {/* Form */}
+      <View style={{ marginTop: 32 }}>
+        <Text style={{ marginBottom: 6, color: "#555" }}>Email Address</Text>
+        <TextInput
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          style={{
+            borderWidth: 1,
+            borderColor: "#ddd",
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 16,
+          }}
+        />
 
-      <Pressable onPress={() => router.push("/signup")} style={{ alignSelf: "center", marginBottom: 20 }}>
-        <Text style={{ color: "blue" }}>Don't have an account? Sign up</Text>
-      </Pressable>
+        <Text style={{ marginBottom: 6, color: "#555" }}>Password</Text>
+        <TextInput
+          placeholder="Enter your password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={{
+            borderWidth: 1,
+            borderColor: "#ddd",
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 12,
+          }}
+        />
+
+        {/* Error */}
+        {error ? (
+          <Text style={{ color: "red", marginBottom: 12 }}>{error}</Text>
+        ) : null}
+
+        {/* Sign In Button */}
+        <Pressable
+          onPress={handleLogin}
+          style={{
+            backgroundColor: "#2DBE60",
+            paddingVertical: 14,
+            borderRadius: 8,
+            alignItems: "center",
+            marginTop: 8,
+          }}
+        >
+          <Text style={{ color: "#fff", fontWeight: "600", fontSize: 16 }}>
+            Sign In
+          </Text>
+        </Pressable>
+      </View>
+
+      {/* Divider */}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginVertical: 28,
+        }}
+      >
+        <View style={{ flex: 1, height: 1, backgroundColor: "#eee" }} />
+        <Text style={{ marginHorizontal: 12, color: "#888" }}>
+          Or continue with
+        </Text>
+        <View style={{ flex: 1, height: 1, backgroundColor: "#eee" }} />
+      </View>
+
+      {/* Social Login */}
+      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+        {["G", "f", "♪"].map((icon, index) => (
+          <View
+            key={index}
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 24,
+              borderWidth: 1,
+              borderColor: "#ddd",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ fontSize: 18 }}>{icon}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* Sign Up */}
+      <View style={{ marginTop: 32, alignItems: "center" }}>
+        <Pressable onPress={() => router.push("/signup")}>
+          <Text style={{ color: "#2DBE60" }}>
+            Don’t have an account? Sign up yeah
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
-

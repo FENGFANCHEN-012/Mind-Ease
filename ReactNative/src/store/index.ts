@@ -3,7 +3,7 @@ import mindReducer from "./mindslice";
 
 export const store = configureStore({
   reducer: {
-    mind: mindReducer, // 👈 这里必须叫 mind
+    mind: mindReducer, 
   },
 });
 

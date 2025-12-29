@@ -3,16 +3,31 @@ import { useState } from "react";
 import { router } from "expo-router";
 
 export default function Signup() {
+  const [email,setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSignup = () => {
+
+   const submitData = async(username,password,email) => {
+    fetch("/signup", {
+      method: "POST",
+      headers: {  
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({  
+        username: username,
+        password: password,
+        email: email,
+      }),
+    })
+   }
+   const handleSignup = () => {
     setError("");
 
-    if (!username || !password || !confirmPassword) {
-      setError("All fields are required.");
+    if (!username.trim() || !password.trim() || !confirmPassword.trim()) {
+      setError("Please ensure all fields are filled.");
       return;
     }
 
@@ -20,72 +35,138 @@ export default function Signup() {
       setError("Passwords do not match.");
       return;
     }
-
     
-    router.replace("/login");
+    // After successful signup, redirect to login
+    router.replace("/(tabs)/login");
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "space-between", padding: 20 }}>
-      
-      <View>
-        <Text style={{ fontSize: 24, marginBottom: 20 }}>Sign Up</Text>
+    <View style={{ flex: 1, padding: 24, backgroundColor: "#fff" }}>
+      {/* Logo + Title */}
+      <View style={{ alignItems: "center", marginTop: 40 }}>
+        <View
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: 12,
+            backgroundColor: "#2DBE60",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 12,
+          }}
+        >
+          <Text style={{ color: "#fff", fontSize: 28, fontWeight: "bold" }}>
+            M
+          </Text>
+        </View>
 
+        <Text style={{ fontSize: 22, fontWeight: "600" }}>
+          Join MindEase
+        </Text>
+        <Text style={{ color: "#777", marginTop: 4, textAlign: "center" }}>
+          Create your account to start your wellness journey
+        </Text>
+      </View>
+
+      <View style={{ marginTop: 32 }}>
+        <Text style={{ marginBottom: 6, color: "#555" }}>Email</Text>
         <TextInput
-          placeholder="Username"
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          style={{
+            borderWidth: 1,
+            borderColor: "#ddd",
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 16,
+          }}
+        />  </View>
+
+
+
+      {/* Form */}
+      <View style={{ marginTop: 32 }}>
+        <Text style={{ marginBottom: 6, color: "#555" }}>Username</Text>
+        <TextInput
+          placeholder="Enter your username"
           value={username}
           onChangeText={setUsername}
           autoCapitalize="none"
           style={{
             borderWidth: 1,
-            borderColor: "#ccc",
-            padding: 10,
-            marginBottom: 10,
-            borderRadius: 5,
+            borderColor: "#ddd",
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 16,
           }}
         />
 
+        <Text style={{ marginBottom: 6, color: "#555" }}>Password</Text>
         <TextInput
-          placeholder="Password"
+          placeholder="Enter your password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           style={{
             borderWidth: 1,
-            borderColor: "#ccc",
-            padding: 10,
-            marginBottom: 10,
-            borderRadius: 5,
+            borderColor: "#ddd",
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 16,
           }}
         />
 
+        <Text style={{ marginBottom: 6, color: "#555" }}>
+          Confirm Password
+        </Text>
         <TextInput
-          placeholder="Confirm Password"
+          placeholder="Re-enter your password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
           style={{
             borderWidth: 1,
-            borderColor: "#ccc",
-            padding: 10,
-            marginBottom: 10,
-            borderRadius: 5,
+            borderColor: "#ddd",
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 12,
           }}
         />
 
+        {/* Error Message */}
         {error ? (
-          <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>
+          <Text style={{ color: "red", marginBottom: 12 }}>
+            {error}
+          </Text>
         ) : null}
 
-        <Pressable onPress={handleSignup}>
-          <Text>Sign Up</Text>
+        {/* Sign Up Button */}
+        <Pressable
+          onPress={handleSignup}
+          style={{
+            backgroundColor: "#2DBE60",
+            paddingVertical: 14,
+            borderRadius: 8,
+            alignItems: "center",
+            marginTop: 8,
+          }}
+        >
+          <Text style={{ color: "#fff", fontWeight: "600", fontSize: 16 }}>
+            Create Account
+          </Text>
         </Pressable>
       </View>
 
-      
-      <Pressable onPress={() => router.push("/login")} style={{ alignSelf: "center", marginBottom: 20 }}>
-        <Text style={{ color: "blue" }}>Already have an account? Log in</Text>
-      </Pressable>
+      {/* Login Link */}
+      <View style={{ marginTop: 32, alignItems: "center" }}>
+        <Pressable onPress={() => router.push("/login")}>
+          <Text style={{ color: "#2DBE60" }}>
+            Already have an account? Log in
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
