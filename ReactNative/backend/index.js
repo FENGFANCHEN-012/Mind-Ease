@@ -1,15 +1,25 @@
-import express from "express";
-import cors from "cors";
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const userController = require("./Controllers/authController");
+const authenticate = require("./MiddleWares/authenticate");
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+app.use(cors());
+
+
+
+app.post("/user/signup", authenticate, userController.registerUser);
 
 app.get("/", (req, res) => {
-  res.send("API is running");
+  res.send("API running");
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+
+
+
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
 });
