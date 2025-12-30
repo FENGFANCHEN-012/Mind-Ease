@@ -112,7 +112,7 @@ export default function Signup() {
 
 
       {/* Form */}
-      <View style={{ marginTop: 32 }}>
+      <View style={{ marginTop: 6 }}>
         <Text style={{ marginBottom: 6, color: "#555" }}>Username</Text>
         <TextInput
           placeholder="Enter your username"

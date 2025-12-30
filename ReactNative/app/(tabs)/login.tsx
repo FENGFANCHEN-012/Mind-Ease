@@ -25,6 +25,7 @@ export default function Login() {
     if (res.ok) {
       const data = await res.json();
       console.log("Login successful:", data);
+      
       return true;
     } else {
       const errorData = await res.json();
