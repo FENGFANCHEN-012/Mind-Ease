@@ -1,6 +1,7 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 import { userController } from "./Controllers/authController.js";
 import {authenticate} from "./MiddleWares/authenticate.js"; 
 

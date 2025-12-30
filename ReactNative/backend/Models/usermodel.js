@@ -16,13 +16,6 @@ export async function getUserProfile(userId) {
     return result.rows[0];
 }
 
-export async function checkUserExists(email) {
-    const result = await pool.query(
-        "SELECT id FROM users WHERE email = $1",
-        [email]
-    );
-    return result.rows.length > 0;
-}
 
 export async function findUserByEmail(email) {
     const result = await pool.query(
