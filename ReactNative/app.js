@@ -1,9 +1,16 @@
-import express from "express";
-import { signup, login } from "../controllers/authController.js";
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const userController = require("./Controllers/authController");
+const authenticate = require("./MiddleWares/authenticate");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
+
+
+app.post("/user/signup", authenticate, userController.registerUser);
 
 app.get("/", (req, res) => {
   res.send("API running");

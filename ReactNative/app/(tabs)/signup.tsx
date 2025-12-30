@@ -10,19 +10,42 @@ export default function Signup() {
   const [error, setError] = useState("");
 
 
-   const submitData = async(username,password,email) => {
-    fetch("/signup", {
-      method: "POST",
-      headers: {  
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({  
-        username: username,
-        password: password,
-        email: email,
-      }),
-    })
-   }
+   const submitData = async (
+  username: string,
+  password: string,
+  email: string
+): Promise<boolean> => {
+  try {
+    const res = await fetch(
+      "https://mind-ease-6auw.onrender.com/user/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          email,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.error || "Signup failed");
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    setError("Network error");
+    return false;
+  }
+};
+
+
    const handleSignup = () => {
     setError("");
 
@@ -35,10 +58,12 @@ export default function Signup() {
       setError("Passwords do not match.");
       return;
     }
-    
+    submitData(username,password,email);
     // After successful signup, redirect to login
     router.replace("/(tabs)/login");
   };
+
+
 
   return (
     <View style={{ flex: 1, padding: 24, backgroundColor: "#fff" }}>
