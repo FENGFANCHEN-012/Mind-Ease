@@ -1,6 +1,8 @@
 import { View, Text, TextInput, Pressable, Image } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
+import * as SecureStore from "expo-secure-store";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -25,7 +27,15 @@ export default function Login() {
     if (res.ok) {
       const data = await res.json();
       console.log("Login successful:", data);
-      
+      const {token} = data;
+      if (!token) {
+      console.error("No token returned");
+      await SecureStore.setItemAsync("authToken", token);
+
+
+      return false;
+    }
+
       return true;
     } else {
       const errorData = await res.json();
