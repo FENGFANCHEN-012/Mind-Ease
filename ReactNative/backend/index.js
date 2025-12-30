@@ -11,6 +11,8 @@ app.use(cors());
 
 
 app.post("/user/signup", authenticate, userController.registerUser);
+app.get("/user/login", userController.login);
+
 
 app.get("/", (req, res) => {
   res.send("API running");

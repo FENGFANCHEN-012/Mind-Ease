@@ -7,7 +7,37 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   
-  const handleLogin = () => {
+
+  const checkLogin = async (
+  email: string,
+  password: string
+): Promise<boolean> => {
+  try {
+    const res = await fetch("https://mind-ease-6auw.onrender.com/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+
+    if (res.ok) {
+      const data = await res.json();
+      console.log("Login successful:", data);
+      return true;
+    } else {
+      const errorData = await res.json();
+      console.error("Login failed:", errorData);
+      return false;
+    }
+  } catch (err) {
+    console.error("Error during login:", err);
+    return false;
+  }
+};
+
+  const handleLogin = async () => {
     setError("");
 
     if (!email.trim() || !password.trim()) {
@@ -15,7 +45,12 @@ export default function Login() {
       return;
     }
 
-    router.replace("/(tabs)/homepage");
+    const isLoginSuccessful = await checkLogin(email, password);
+    if (isLoginSuccessful) {
+      router.replace("/(tabs)/chatbot");
+    } else {
+      setError("Invalid email or password.");
+    }
   };
 
   return (
