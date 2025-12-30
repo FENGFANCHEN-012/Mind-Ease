@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const userController = require("./backend/Controllers/authController");
-const authenticate = require("./backend/MiddleWares/authenticate");
+const userController = require("./Controllers/authController");
+const authenticate = require("./MiddleWares/authenticate");
 
 const app = express();
 app.use(express.json());
