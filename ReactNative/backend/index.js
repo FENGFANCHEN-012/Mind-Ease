@@ -10,8 +10,8 @@ app.use(cors());
 
 
 
-app.post("/user/signup", authenticate, userController.registerUser);
-app.get("/user/login", userController.login);
+app.post("/user/signup", userController.registerUser);
+app.post("/user/login", userController.login);
 
 
 app.get("/", (req, res) => {
